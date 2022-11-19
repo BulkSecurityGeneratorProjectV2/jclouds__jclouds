@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 import javax.ws.rs.core.HttpHeaders;
 
@@ -94,7 +95,7 @@ public class MiscApiMockTest extends BaseDockerMockTest {
    public void testBuildContainerUsingPayload() throws Exception {
       MockWebServer server = mockWebServer(new MockResponse().setResponseCode(200));
       MiscApi api = api(DockerApi.class, server.getUrl("/").toString()).getMiscApi();
-      File file = File.createTempFile("docker", "tmp");
+      File file = Files.createTempFile("docker", "tmp").toFile();
       FileInputStream data = new FileInputStream(file);
       Payload payload = Payloads.newInputStreamPayload(data);
       payload.getContentMetadata().setContentLength(file.length());
